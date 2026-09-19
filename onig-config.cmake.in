@@ -1,0 +1,84 @@
+#!/bin/sh
+
+ONIG_VERSION="@PROJECT_VERSION@"
+
+prefix="@CMAKE_INSTALL_PREFIX@"
+exec_prefix="@CMAKE_INSTALL_PREFIX@"
+libdir="@CMAKE_INSTALL_FULL_LIBDIR@"
+includedir="@CMAKE_INSTALL_FULL_INCLUDEDIR@"
+
+show_usage()
+{
+  cat <<EOF2
+Usage: onig-config [OPTION]
+
+Values for OPTION are:
+
+  --prefix[=DIR]       change prefix to DIR
+  --prefix             print prefix
+  --exec-prefix[=DIR]  change exec_prefix to DIR
+  --exec-prefix        print exec-prefix
+  --cflags              print C compiler flags
+  --libs                print library information
+  --version             print oniguruma version
+  --help                print this help
+
+EOF2
+
+  exit 1
+}
+
+if test $# -eq 0; then
+  show_usage
+fi
+
+is_set_exec_prefix=no
+
+while test $# -gt 0; do
+  case "$1" in
+  -*=*)
+    val=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'`
+    ;;
+  *)
+    val=
+    ;;
+  esac
+
+  case "$1" in
+    --prefix=*)
+      prefix=$val
+      if test "$is_set_exec_prefix" = no; then
+        exec_prefix=$val
+      fi
+      ;;
+    --prefix)
+      echo "$prefix"
+      ;;
+    --exec-prefix=*)
+      exec_prefix=$val
+      is_set_exec_prefix=yes
+      ;;
+    --exec-prefix)
+      echo "$exec_prefix"
+      ;;
+    --cflags)
+      if test "$includedir" != /usr/include; then
+        echo "-I$includedir"
+      fi
+      ;;
+    --libs)
+      echo "-L$libdir -lonig"
+      ;;
+    --version)
+      echo "$ONIG_VERSION"
+      ;;
+    --help)
+      show_usage
+      ;;
+    *)
+      show_usage
+      ;;
+  esac
+
+  shift
+done
