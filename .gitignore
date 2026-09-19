@@ -1,3 +1,4 @@
+# Autotools generated files
 Makefile.in
 Makefile
 autom4te.cache/
@@ -10,14 +11,34 @@ config.log
 config.h
 onig-config
 libtool
+
+/aclocal.m4
+/ar-lib
+/compile
+/config.guess
+/config.h.in
+/config.sub
+/depcomp
+/install-sh
+/missing
+/test-driver
+
+*.dirstamp
+
+# Build artifacts
 *.o
-*.so
 *.lo
+*.a
 *.la
+*.so
+*.so.*
 *.pc
 *~
+
 .libs/
 .deps/
+
+# Test and sample binaries
 testc
 testcu
 testp
@@ -29,3 +50,15 @@ sample/posix
 sample/simple
 sample/sql
 sample/syntax
+
+# CMake generated files
+/build/
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# Local installation/staging
+/stage/
